@@ -379,10 +379,10 @@ namespace reloca
 			if (index >= 0)
 			{
 				var setting = saveData.Settings[index];
-				cbxTitle.Enabled = !string.IsNullOrEmpty(setting.title);
-				cbxClass.Enabled = !string.IsNullOrEmpty(setting.className);
-				cbxLocation.Enabled = setting.location;
-				cbxSize.Enabled = setting.size;
+				cbxTitle.Checked = !string.IsNullOrEmpty(setting.title);
+				cbxClass.Checked = !string.IsNullOrEmpty(setting.className);
+				cbxLocation.Checked = setting.location;
+				cbxSize.Checked = setting.size;
 
 				return true;
 			}
