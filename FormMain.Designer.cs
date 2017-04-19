@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
 			this.pbxScreen = new System.Windows.Forms.PictureBox();
 			this.btnPrevScreen = new System.Windows.Forms.Button();
 			this.btnNextScreen = new System.Windows.Forms.Button();
@@ -193,6 +194,7 @@
 			this.Controls.Add(this.btnNextScreen);
 			this.Controls.Add(this.btnPrevScreen);
 			this.Controls.Add(this.pbxScreen);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.ImeMode = System.Windows.Forms.ImeMode.Disable;
 			this.Name = "FormMain";
 			this.Text = "Reloca";
