@@ -121,6 +121,16 @@ namespace reloca
 				e.Graphics.DrawRectangle(Pens.DarkGray, x, y, width, height);
 				e.Graphics.DrawString(window.Text, SystemFonts.DefaultFont, Brushes.Black, x+1, y+1);
 			}
+			if (showing != null)
+			{
+				var x = (float)(showing.Left / scale);
+				var y = (float)(showing.Top / scale);
+				var width = (float)(showing.Width / scale);
+				var height = (float)(showing.Height / scale);
+				e.Graphics.FillRectangle(Brushes.White, x, y, width, height);
+				e.Graphics.DrawRectangle(Pens.DarkGray, x, y, width, height);
+				e.Graphics.DrawString(showing.Text, SystemFonts.DefaultFont, Brushes.Black, x + 1, y + 1);
+			}
 		}
 
 		private void pbxScreen_MouseClick(object sender, MouseEventArgs e)
@@ -438,6 +448,7 @@ namespace reloca
 		private void ShowInformation(NativeWindowModoki window)
 		{
 			showing = window;
+			pbxScreen.Refresh();
 
 			if (string.IsNullOrEmpty(window.Text))
 			{
