@@ -113,23 +113,11 @@ namespace reloca
 		{
 			foreach (var window in windows)
 			{
-				var x = (float)(window.Left / scale);
-				var y = (float)(window.Top / scale);
-				var width = (float)(window.Width / scale);
-				var height = (float)(window.Height / scale);
-				e.Graphics.FillRectangle(Brushes.Gray, x, y, width, height);
-				e.Graphics.DrawRectangle(Pens.DarkGray, x, y, width, height);
-				e.Graphics.DrawString(window.Text, SystemFonts.DefaultFont, Brushes.Black, x+1, y+1);
+				DrawWindow(e.Graphics, window, Brushes.Gray);
 			}
 			if (showing != null)
 			{
-				var x = (float)(showing.Left / scale);
-				var y = (float)(showing.Top / scale);
-				var width = (float)(showing.Width / scale);
-				var height = (float)(showing.Height / scale);
-				e.Graphics.FillRectangle(Brushes.White, x, y, width, height);
-				e.Graphics.DrawRectangle(Pens.DarkGray, x, y, width, height);
-				e.Graphics.DrawString(showing.Text, SystemFonts.DefaultFont, Brushes.Black, x + 1, y + 1);
+				DrawWindow(e.Graphics, showing, Brushes.White);
 			}
 		}
 
@@ -139,8 +127,9 @@ namespace reloca
 			NativeWindowModoki first = null;
 			foreach (var window in Enumerable.Reverse(windows))
 			{
-				var left = (float)(window.Left / scale);
-				var top = (float)(window.Top / scale);
+				var screen = Screen.AllScreens[currentScreen];
+				var left = (float)((window.Left - screen.Bounds.Left) / scale);
+				var top = (float)((window.Top - screen.Bounds.Top) / scale);
 				var right = left + (float)(window.Width / scale);
 				var bottom = top + (float)(window.Height / scale);
 				if (e.Location.X >= left && e.Location.X <= right && e.Location.Y >= top && e.Location.Y <= bottom)
@@ -167,6 +156,18 @@ namespace reloca
 			{
 				ShowInformation(first);
 			}
+		}
+
+		private void DrawWindow(Graphics g, NativeWindowModoki window, Brush brush)
+		{
+			var screen = Screen.AllScreens[currentScreen];
+			var x = (float)((window.Left - screen.Bounds.Left) / scale);
+			var y = (float)((window.Top - screen.Bounds.Top) / scale);
+			var width = (float)(window.Width / scale);
+			var height = (float)(window.Height / scale);
+			g.FillRectangle(brush, x, y, width, height);
+			g.DrawRectangle(Pens.DarkGray, x, y, width, height);
+			g.DrawString(window.Text, SystemFonts.DefaultFont, Brushes.Black, x + 1, y + 1);
 		}
 
 		private void SetupPictureBox()
@@ -211,15 +212,13 @@ namespace reloca
 
 		private void SetScreenCount()
 		{
-			//screenCount = SystemInformation.MonitorCount;
-			screenCount = Screen.AllScreens.Length;
+			screenCount = SystemInformation.MonitorCount;
+			//screenCount = Screen.AllScreens.Length;
 			if (currentScreen >= screenCount || currentScreen < 0)
 			{
 				currentScreen = 0;
-				UpdateScreenInfo();
 			}
-			btnPrevScreen.Enabled = currentScreen > 0;
-			btnNextScreen.Enabled = currentScreen < screenCount - 1;
+			UpdateScreenInfo();
 		}
 
 		private NativeWindowModoki GetToplevelWindow(IntPtr hwnd)
@@ -240,7 +239,9 @@ namespace reloca
 		private void UpdateScreenInfo()
 		{
 			lblScreenName.Text = string.Format("Screen {0}", currentScreen + 1);
-
+			btnPrevScreen.Enabled = currentScreen > 0;
+			btnNextScreen.Enabled = currentScreen < screenCount - 1;
+ 
 			SetupPictureBox();
 
 			windows.Clear();
