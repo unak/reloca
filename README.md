@@ -1,7 +1,8 @@
 Reloca
 ======
 
-Save and Restore the position and size of windows for Windows
+![Reloca](https://raw.githubusercontent.com/unak/reloca/readme_img/reloca.png "Reloca")
+Save and restore the position and size of windows for Windows
 
 Status
 ------
