@@ -471,7 +471,7 @@ namespace reloca
 		{
 			foreach (var setting in saveData.Settings)
 			{
-				var target = windows.First((window) =>
+				foreach (var target in windows.Where((window) =>
 				{
 					if ((string.IsNullOrEmpty(setting.title) || setting.title == window.Text) &&
 						(string.IsNullOrEmpty(setting.className) || setting.className == window.ClassName) &&
@@ -483,8 +483,7 @@ namespace reloca
 					{
 						return false;
 					}
-				});
-				if (target != null)
+				}))
 				{
 					int x;
 					int y;
