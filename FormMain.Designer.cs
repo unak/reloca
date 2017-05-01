@@ -98,7 +98,7 @@
 			this.btnRefresh.Location = new System.Drawing.Point(459, 224);
 			this.btnRefresh.Name = "btnRefresh";
 			this.btnRefresh.Size = new System.Drawing.Size(85, 29);
-			this.btnRefresh.TabIndex = 4;
+			this.btnRefresh.TabIndex = 3;
 			this.btnRefresh.Text = "Refresh";
 			this.btnRefresh.UseVisualStyleBackColor = true;
 			this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
@@ -109,7 +109,7 @@
 			this.cbxTitle.Location = new System.Drawing.Point(10, 264);
 			this.cbxTitle.Name = "cbxTitle";
 			this.cbxTitle.Size = new System.Drawing.Size(49, 16);
-			this.cbxTitle.TabIndex = 8;
+			this.cbxTitle.TabIndex = 4;
 			this.cbxTitle.Text = "Title:";
 			this.cbxTitle.UseVisualStyleBackColor = true;
 			this.cbxTitle.CheckedChanged += new System.EventHandler(this.cbxTitle_CheckedChanged);
@@ -120,7 +120,7 @@
 			this.cbxClass.Location = new System.Drawing.Point(10, 286);
 			this.cbxClass.Name = "cbxClass";
 			this.cbxClass.Size = new System.Drawing.Size(55, 16);
-			this.cbxClass.TabIndex = 9;
+			this.cbxClass.TabIndex = 7;
 			this.cbxClass.Text = "Class:";
 			this.cbxClass.UseVisualStyleBackColor = true;
 			this.cbxClass.CheckedChanged += new System.EventHandler(this.cbxClass_CheckedChanged);
@@ -190,7 +190,7 @@
 			this.cbxTitleRegex.Location = new System.Drawing.Point(422, 264);
 			this.cbxTitleRegex.Name = "cbxTitleRegex";
 			this.cbxTitleRegex.Size = new System.Drawing.Size(122, 16);
-			this.cbxTitleRegex.TabIndex = 15;
+			this.cbxTitleRegex.TabIndex = 6;
 			this.cbxTitleRegex.Text = "Use Regex for title";
 			this.cbxTitleRegex.UseVisualStyleBackColor = true;
 			this.cbxTitleRegex.CheckedChanged += new System.EventHandler(this.cbxTitleRegex_CheckedChanged);
@@ -202,7 +202,7 @@
 			this.cbxClassRegex.Location = new System.Drawing.Point(422, 286);
 			this.cbxClassRegex.Name = "cbxClassRegex";
 			this.cbxClassRegex.Size = new System.Drawing.Size(129, 16);
-			this.cbxClassRegex.TabIndex = 16;
+			this.cbxClassRegex.TabIndex = 9;
 			this.cbxClassRegex.Text = "Use Regex for class";
 			this.cbxClassRegex.UseVisualStyleBackColor = true;
 			this.cbxClassRegex.CheckedChanged += new System.EventHandler(this.cbxClassRegex_CheckedChanged);
@@ -212,14 +212,14 @@
 			this.edtTitle.Location = new System.Drawing.Point(74, 262);
 			this.edtTitle.Name = "edtTitle";
 			this.edtTitle.Size = new System.Drawing.Size(311, 19);
-			this.edtTitle.TabIndex = 17;
+			this.edtTitle.TabIndex = 5;
 			// 
 			// edtClass
 			// 
 			this.edtClass.Location = new System.Drawing.Point(74, 284);
 			this.edtClass.Name = "edtClass";
 			this.edtClass.Size = new System.Drawing.Size(311, 19);
-			this.edtClass.TabIndex = 18;
+			this.edtClass.TabIndex = 8;
 			// 
 			// FormMain
 			// 
