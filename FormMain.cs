@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -109,6 +110,48 @@ namespace reloca
 			Relocate();
 		}
 
+		private void cbxTitle_CheckedChanged(object sender, EventArgs e)
+		{
+			if (cbxTitle.Checked)
+			{
+				cbxTitleRegex.Enabled = true;
+				cbxTitleRegex.Checked = false;
+				edtTitle.Enabled = true;
+			}
+			else
+			{
+				cbxTitleRegex.Enabled = false;
+				cbxTitleRegex.Checked = false;
+				edtTitle.Enabled = false;
+			}
+		}
+
+		private void cbxTitleRegex_CheckedChanged(object sender, EventArgs e)
+		{
+			edtTitle.Enabled = cbxTitleRegex.Checked;
+		}
+
+		private void cbxClass_CheckedChanged(object sender, EventArgs e)
+		{
+			if (cbxClass.Checked)
+			{
+				cbxClassRegex.Enabled = true;
+				cbxClassRegex.Checked = false;
+				edtClass.Enabled = true;
+			}
+			else
+			{
+				cbxClassRegex.Enabled = false;
+				cbxClassRegex.Checked = false;
+				edtClass.Enabled = false;
+			}
+		}
+
+		private void cbxClassRegex_CheckedChanged(object sender, EventArgs e)
+		{
+			edtClass.Enabled = cbxClassRegex.Checked;
+		}
+
 		private void pbxScreen_Paint(object sender, PaintEventArgs e)
 		{
 			foreach (var window in windows)
@@ -183,6 +226,7 @@ namespace reloca
 			var diff4 = cbxClass.Top - cbxTitle.Bottom;
 			var diff5 = btnSave.Top - cbxSize.Bottom;
 			var diff6 = this.ClientSize.Height - btnSave.Bottom;
+			var diff7 = edtTitle.Top - cbxTitle.Top;
 
 			var screen = Screen.AllScreens[currentScreen];
 			scale = (double)screen.Bounds.Width / this.ClientSize.Width;
@@ -196,7 +240,11 @@ namespace reloca
 			btnNextScreen.Left = btnPrevScreen.Left + width - btnNextScreen.Width;
 
 			cbxTitle.Top = lblScreenName.Bottom + diff3;
+			cbxTitleRegex.Top = cbxTitle.Top;
+			edtTitle.Top = cbxTitle.Top + diff7;
 			cbxClass.Top = cbxTitle.Bottom + diff4;
+			cbxClassRegex.Top = cbxClass.Top;
+			edtClass.Top = cbxClass.Top + diff7;
 			cbxProcess.Top = cbxClass.Bottom + diff4;
 			cbxLocation.Top = cbxProcess.Bottom + diff4;
 			cbxSize.Top = cbxLocation.Bottom + diff4;
@@ -343,18 +391,26 @@ namespace reloca
 		{
 			showing = null;
 			cbxTitle.Text = "Title: ";
+			edtTitle.Text = "";
 			cbxClass.Text = "Class: ";
+			edtClass.Text = "";
 			cbxProcess.Text = "Process: ";
 			cbxLocation.Text = "Location: ";
 			cbxSize.Text = "Size: ";
 
 			cbxTitle.Checked = false;
+			cbxTitleRegex.Checked = false;
 			cbxClass.Checked = false;
+			cbxClassRegex.Checked = false;
 			cbxLocation.Checked = false;
 			cbxSize.Checked = false;
 
 			cbxTitle.Enabled = false;
+			edtTitle.Enabled = false;
+			cbxTitleRegex.Enabled = false;
 			cbxClass.Enabled = false;
+			edtClass.Enabled = false;
+			cbxClassRegex.Enabled = false;
 			cbxLocation.Enabled = false;
 			cbxSize.Enabled = false;
 			btnSave.Enabled = false;
@@ -369,11 +425,11 @@ namespace reloca
 				{
 					continue;
 				}
-				if (!string.IsNullOrEmpty(setting.title) && setting.title != title)
+				if (!IsMatch(title, setting.title, setting.titleRegex))
 				{
 					continue;
 				}
-				if (!string.IsNullOrEmpty(setting.className) && setting.className != className)
+				if (!IsMatch(className, setting.className, setting.classRegex))
 				{
 					continue;
 				}
@@ -391,7 +447,11 @@ namespace reloca
 			{
 				var setting = saveData.Settings[index];
 				cbxTitle.Checked = !string.IsNullOrEmpty(setting.title);
+				edtTitle.Text = setting.title;
+				cbxTitleRegex.Checked = setting.titleRegex;
 				cbxClass.Checked = !string.IsNullOrEmpty(setting.className);
+				edtClass.Text = setting.className;
+				cbxClassRegex.Checked = setting.classRegex;
 				cbxLocation.Checked = setting.location;
 				cbxSize.Checked = setting.size;
 
@@ -413,12 +473,14 @@ namespace reloca
 			var setting = new SaveData.Setting();
 			if (cbxTitle.Checked)
 			{
-				setting.title = showing.Text;
+				setting.title = edtTitle.Text;
 			}
+			setting.titleRegex = cbxTitleRegex.Checked;
 			if (cbxClass.Checked)
 			{
-				setting.className = showing.ClassName;
+				setting.className = edtClass.Text;
 			}
+			setting.classRegex = cbxClassRegex.Checked;
 			setting.process = showing.ProcessName;
 			setting.location = cbxLocation.Checked;
 			if (setting.location)
@@ -451,15 +513,8 @@ namespace reloca
 			showing = window;
 			pbxScreen.Refresh();
 
-			if (string.IsNullOrEmpty(window.Text))
-			{
-				cbxTitle.Text = "Title: (noname)";
-			}
-			else
-			{
-				cbxTitle.Text = "Title: " + window.Text;
-			}
-			cbxClass.Text = "Class: " + window.ClassName;
+			edtTitle.Text = window.Text;
+			edtClass.Text = window.ClassName;
 			cbxProcess.Text = "Process: " + window.ProcessName;
 			cbxLocation.Text = string.Format("Location: {0}, {1}", window.Left, window.Top);
 			cbxSize.Text = string.Format("Size: {0} x {1}", window.Width, window.Height);
@@ -467,16 +522,39 @@ namespace reloca
 			if (!LoadSetting(window.Text, window.ClassName, window.ProcessName))
 			{
 				cbxTitle.Checked = false;
+				cbxTitleRegex.Checked = false;
 				cbxClass.Checked = false;
+				cbxClassRegex.Checked = false;
 				cbxLocation.Checked = false;
 				cbxSize.Checked = false;
 			}
 
 			cbxTitle.Enabled = true;
+			edtTitle.Enabled = cbxTitle.Checked && cbxTitleRegex.Checked;
+			cbxTitleRegex.Enabled = cbxTitle.Checked;
 			cbxClass.Enabled = true;
+			edtClass.Enabled = cbxClass.Checked && cbxClassRegex.Checked;
+			cbxClassRegex.Enabled = cbxClass.Checked;
 			cbxLocation.Enabled = true;
 			cbxSize.Enabled = true;
 			btnSave.Enabled = cbxLocation.Checked || cbxSize.Checked;
+		}
+
+		private bool IsMatch(string target, string source, bool isRegex)
+		{
+			if (string.IsNullOrEmpty(source))
+			{
+				return true;
+			}
+			if (!isRegex && target == source)
+			{
+				return true;
+			}
+			if (isRegex && Regex.IsMatch(target, source))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private void Relocate()
@@ -485,8 +563,8 @@ namespace reloca
 			{
 				foreach (var target in windows.Where((window) =>
 				{
-					if ((string.IsNullOrEmpty(setting.title) || setting.title == window.Text) &&
-						(string.IsNullOrEmpty(setting.className) || setting.className == window.ClassName) &&
+					if (IsMatch(window.Text, setting.title, setting.titleRegex) &&
+						IsMatch(window.ClassName, setting.className, setting.classRegex) &&
 						setting.process == window.ProcessName)
 					{
 						return true;

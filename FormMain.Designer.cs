@@ -41,6 +41,10 @@
 			this.cbxSize = new System.Windows.Forms.CheckBox();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.btnRelocate = new System.Windows.Forms.Button();
+			this.cbxTitleRegex = new System.Windows.Forms.CheckBox();
+			this.cbxClassRegex = new System.Windows.Forms.CheckBox();
+			this.edtTitle = new System.Windows.Forms.TextBox();
+			this.edtClass = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.pbxScreen)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -104,20 +108,22 @@
 			this.cbxTitle.AutoSize = true;
 			this.cbxTitle.Location = new System.Drawing.Point(10, 264);
 			this.cbxTitle.Name = "cbxTitle";
-			this.cbxTitle.Size = new System.Drawing.Size(47, 16);
+			this.cbxTitle.Size = new System.Drawing.Size(49, 16);
 			this.cbxTitle.TabIndex = 8;
-			this.cbxTitle.Text = "Title";
+			this.cbxTitle.Text = "Title:";
 			this.cbxTitle.UseVisualStyleBackColor = true;
+			this.cbxTitle.CheckedChanged += new System.EventHandler(this.cbxTitle_CheckedChanged);
 			// 
 			// cbxClass
 			// 
 			this.cbxClass.AutoSize = true;
 			this.cbxClass.Location = new System.Drawing.Point(10, 286);
 			this.cbxClass.Name = "cbxClass";
-			this.cbxClass.Size = new System.Drawing.Size(53, 16);
+			this.cbxClass.Size = new System.Drawing.Size(55, 16);
 			this.cbxClass.TabIndex = 9;
-			this.cbxClass.Text = "Class";
+			this.cbxClass.Text = "Class:";
 			this.cbxClass.UseVisualStyleBackColor = true;
+			this.cbxClass.CheckedChanged += new System.EventHandler(this.cbxClass_CheckedChanged);
 			// 
 			// cbxProcess
 			// 
@@ -128,9 +134,9 @@
 			this.cbxProcess.Enabled = false;
 			this.cbxProcess.Location = new System.Drawing.Point(10, 308);
 			this.cbxProcess.Name = "cbxProcess";
-			this.cbxProcess.Size = new System.Drawing.Size(65, 16);
+			this.cbxProcess.Size = new System.Drawing.Size(67, 16);
 			this.cbxProcess.TabIndex = 10;
-			this.cbxProcess.Text = "Process";
+			this.cbxProcess.Text = "Process:";
 			this.cbxProcess.UseVisualStyleBackColor = true;
 			// 
 			// cbxLocation
@@ -138,9 +144,9 @@
 			this.cbxLocation.AutoSize = true;
 			this.cbxLocation.Location = new System.Drawing.Point(10, 330);
 			this.cbxLocation.Name = "cbxLocation";
-			this.cbxLocation.Size = new System.Drawing.Size(67, 16);
+			this.cbxLocation.Size = new System.Drawing.Size(69, 16);
 			this.cbxLocation.TabIndex = 11;
-			this.cbxLocation.Text = "Location";
+			this.cbxLocation.Text = "Location:";
 			this.cbxLocation.UseVisualStyleBackColor = true;
 			this.cbxLocation.CheckedChanged += new System.EventHandler(this.cbxLocation_CheckedChanged);
 			// 
@@ -149,9 +155,9 @@
 			this.cbxSize.AutoSize = true;
 			this.cbxSize.Location = new System.Drawing.Point(10, 352);
 			this.cbxSize.Name = "cbxSize";
-			this.cbxSize.Size = new System.Drawing.Size(45, 16);
+			this.cbxSize.Size = new System.Drawing.Size(47, 16);
 			this.cbxSize.TabIndex = 12;
-			this.cbxSize.Text = "Size";
+			this.cbxSize.Text = "Size:";
 			this.cbxSize.UseVisualStyleBackColor = true;
 			this.cbxSize.CheckedChanged += new System.EventHandler(this.cbxSize_CheckedChanged);
 			// 
@@ -177,11 +183,53 @@
 			this.btnRelocate.UseVisualStyleBackColor = true;
 			this.btnRelocate.Click += new System.EventHandler(this.btnRelocate_Click);
 			// 
+			// cbxTitleRegex
+			// 
+			this.cbxTitleRegex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cbxTitleRegex.AutoSize = true;
+			this.cbxTitleRegex.Location = new System.Drawing.Point(422, 264);
+			this.cbxTitleRegex.Name = "cbxTitleRegex";
+			this.cbxTitleRegex.Size = new System.Drawing.Size(122, 16);
+			this.cbxTitleRegex.TabIndex = 15;
+			this.cbxTitleRegex.Text = "Use Regex for title";
+			this.cbxTitleRegex.UseVisualStyleBackColor = true;
+			this.cbxTitleRegex.CheckedChanged += new System.EventHandler(this.cbxTitleRegex_CheckedChanged);
+			// 
+			// cbxClassRegex
+			// 
+			this.cbxClassRegex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cbxClassRegex.AutoSize = true;
+			this.cbxClassRegex.Location = new System.Drawing.Point(422, 286);
+			this.cbxClassRegex.Name = "cbxClassRegex";
+			this.cbxClassRegex.Size = new System.Drawing.Size(129, 16);
+			this.cbxClassRegex.TabIndex = 16;
+			this.cbxClassRegex.Text = "Use Regex for class";
+			this.cbxClassRegex.UseVisualStyleBackColor = true;
+			this.cbxClassRegex.CheckedChanged += new System.EventHandler(this.cbxClassRegex_CheckedChanged);
+			// 
+			// edtTitle
+			// 
+			this.edtTitle.Location = new System.Drawing.Point(74, 262);
+			this.edtTitle.Name = "edtTitle";
+			this.edtTitle.Size = new System.Drawing.Size(311, 19);
+			this.edtTitle.TabIndex = 17;
+			// 
+			// edtClass
+			// 
+			this.edtClass.Location = new System.Drawing.Point(74, 284);
+			this.edtClass.Name = "edtClass";
+			this.edtClass.Size = new System.Drawing.Size(311, 19);
+			this.edtClass.TabIndex = 18;
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(556, 466);
+			this.Controls.Add(this.edtClass);
+			this.Controls.Add(this.edtTitle);
+			this.Controls.Add(this.cbxClassRegex);
+			this.Controls.Add(this.cbxTitleRegex);
 			this.Controls.Add(this.btnRelocate);
 			this.Controls.Add(this.btnSave);
 			this.Controls.Add(this.cbxSize);
@@ -219,6 +267,10 @@
 		private System.Windows.Forms.CheckBox cbxSize;
 		private System.Windows.Forms.Button btnSave;
 		private System.Windows.Forms.Button btnRelocate;
+		private System.Windows.Forms.CheckBox cbxTitleRegex;
+		private System.Windows.Forms.CheckBox cbxClassRegex;
+		private System.Windows.Forms.TextBox edtTitle;
+		private System.Windows.Forms.TextBox edtClass;
 	}
 }
 

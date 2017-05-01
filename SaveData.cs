@@ -20,6 +20,8 @@ namespace reloca
 			public int height;
 			public bool location;
 			public bool size;
+			public bool titleRegex;
+			public bool classRegex;
 		}
 
 		[UserScopedSetting()]
